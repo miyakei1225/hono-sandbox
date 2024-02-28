@@ -1,12 +1,16 @@
-import build from '@hono/vite-ssg'
-import devServer from '@hono/vite-dev-server'
+import pages from '@hono/vite-cloudflare-pages'
+import honox from 'honox/vite'
+import client from 'honox/vite/client'
 import { defineConfig } from 'vite'
 
-export default defineConfig({
-  plugins: [
-    build(),
-    devServer({
-      entry: 'src/index.tsx'
-    })
-  ]
+export default defineConfig(({ mode }) => {
+  if (mode === 'client') {
+    return {
+      plugins: [client()]
+    }
+  } else {
+    return {
+      plugins: [honox(), pages()]
+    }
+  }
 })
